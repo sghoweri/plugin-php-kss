@@ -1,0 +1,26 @@
+{
+	"name":             "PatternLab/KSSPlugin",
+	"description":      "KSS Plugin for the PHP version of Pattern Lab",
+	"keywords":         ["kss", "pattern lab", "style guide"],
+	"homepage":         "http://patternlab.io",
+	"license":          "MIT",
+	"authors": [
+		{
+			"name":         "Dave Olsen",
+			"email":        "dmolsen@gmail.com",
+			"homepage":     "http://dmolsen.com",
+			"role":         "Lead Developer"
+		}
+	],
+	"config": {
+		"vendor-dir": "../vendor"
+	},
+	"autoload": {
+		"psr-0": {
+			"PatternLab\\KSSPlugin": "src/"
+		}
+	},
+	"require": {
+		"scan/kss-php": "v0.6.0"
+	}
+}
