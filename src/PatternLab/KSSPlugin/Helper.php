@@ -108,15 +108,13 @@ class Helper extends PatternDataHelper {
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
 						
 						// render the views for the plug-in
-						$descAddition    = TemplateHelper::$htmlLoader->render($this->descTemplate,$patternModifierData);
-						$exampleAddition = TemplateHelper::$htmlLoader->render($this->exampleTemplate,$patternModifierData);
+						$partialViewDescAddition    = TemplateHelper::$htmlLoader->render($this->descTemplate,$patternModifierData);
+						$partialViewExampleAddition = TemplateHelper::$htmlLoader->render($this->exampleTemplate,$patternModifierData);
 						
 						// add the views to the appropriate containers in the patterndata::$store
-						PatternData::$store[$patternStoreKey]["descAdditions"][]    = $descAddition;
-						PatternData::$store[$patternStoreKey]["exampleAdditions"][] = $exampleAddition;
-						
-						// add this info to the to be used on the code view
-						PatternData::$store[$patternStoreKey]["modifiers"] = $patternModifiers;
+						PatternData::$store[$patternStoreKey]["partialViewDescAdditions"][]    = $partialViewDescAddition;
+						PatternData::$store[$patternStoreKey]["partialViewExampleAdditions"][] = $partialViewExampleAddition;
+						PatternData::$store[$patternStoreKey]["codeViewDescAdditions"][]       = $partialViewDescAddition;
 						
 					}
 					
