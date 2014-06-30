@@ -22,7 +22,7 @@ class Listener extends \PatternLab\Listener {
 	*/
 	public function __construct() {
 		
-		$this->addListener("patternData.gatherEnd","runHelper");
+		$this->addListener("patternData.codeHelperStart","runHelper");
 		
 	}
 	
