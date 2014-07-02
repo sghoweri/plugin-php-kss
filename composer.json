@@ -12,9 +12,6 @@
 			"role":         "Lead Developer"
 		}
 	],
-	"config": {
-		"vendor-dir": "../vendor"
-	},
 	"autoload": {
 		"psr-0": {
 			"PatternLab\\KSSPlugin": "src/"
