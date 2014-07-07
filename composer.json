@@ -1,5 +1,5 @@
 {
-	"name":             "PatternLab/KSSPlugin",
+	"name":             "pattern-lab/kss-plugin",
 	"description":      "KSS Plugin for the PHP version of Pattern Lab",
 	"keywords":         ["kss", "pattern lab", "style guide"],
 	"homepage":         "http://patternlab.io",
