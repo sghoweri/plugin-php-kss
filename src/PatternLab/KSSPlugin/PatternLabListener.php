@@ -15,7 +15,7 @@ namespace PatternLab\KSSPlugin;
 use \PatternLab\PatternData\Event;
 use \PatternLab\KSSPlugin\Helper;
 
-class Listener extends \PatternLab\Listener {
+class PatternLabListener extends \PatternLab\Listener {
 	
 	/**
 	* Add the listeners for this plug-in
