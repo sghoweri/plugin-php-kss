@@ -19,7 +19,7 @@ use \PatternLab\PatternData;
 use \PatternLab\PatternData\Helper as PatternDataHelper;
 use \PatternLab\PatternEngine;
 use \PatternLab\Render;
-use \PatternLab\Template\Helper as TemplateHelper;
+use \PatternLab\Template;
 
 class Helper extends PatternDataHelper {
 	
@@ -50,12 +50,13 @@ class Helper extends PatternDataHelper {
 		// various set-up options
 		$options                 = array();
 		$options["patternPaths"] = $this->patternPaths;
-		PatternEngine::setup($options);
+		$patternDataStore        = PatternData::$store;
+		Template::$patternLoader = PatternEngine::$instance->getPatternLoader($options);
 		
 		// parse all of the CSS in the project
 		$kss = new Parser(Config::$options["sourceDir"]);
 		
-		foreach (PatternData::$store as $patternStoreKey => $patternStoreData) {
+		foreach ($patternDataStore as $patternStoreKey => $patternStoreData) {
 			
 			if ($patternStoreData["category"] == "pattern") {
 				
@@ -108,8 +109,8 @@ class Helper extends PatternDataHelper {
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
 						
 						// render the views for the plug-in
-						$partialViewDescAddition    = TemplateHelper::$htmlLoader->render($this->descTemplate,$patternModifierData);
-						$partialViewExampleAddition = TemplateHelper::$htmlLoader->render($this->exampleTemplate,$patternModifierData);
+						$partialViewDescAddition    = Template::$htmlLoader->render($this->descTemplate,$patternModifierData);
+						$partialViewExampleAddition = Template::$htmlLoader->render($this->exampleTemplate,$patternModifierData);
 						
 						// add the views to the appropriate containers in the patterndata::$store
 						PatternData::$store[$patternStoreKey]["partialViewDescAdditions"][]    = $partialViewDescAddition;
