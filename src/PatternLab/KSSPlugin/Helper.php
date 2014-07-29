@@ -51,11 +51,11 @@ class Helper extends PatternDataHelper {
 		// various set-up options
 		$options                 = array();
 		$options["patternPaths"] = $this->patternPaths;
-		$patternDataStore        = PatternData::$store;
-		Template::$patternLoader = PatternEngine::$instance->getPatternLoader($options);
+		$patternDataStore        = PatternData::get();
+		Template::setPatternLoader(PatternEngine::getInstance()->getPatternLoader($options));
 		
 		// parse all of the CSS in the project
-		$kss = new Parser(Config::$options["sourceDir"]);
+		$kss = new Parser(Config::getOption("sourceDir"));
 		
 		foreach ($patternDataStore as $patternStoreKey => $patternStoreData) {
 			
@@ -65,9 +65,9 @@ class Helper extends PatternDataHelper {
 				if ($kssSection = $kss->getSection($patternStoreKey)) {
 					
 					// update the name and desc based on the KSS
-					PatternData::$store[$patternStoreKey]["name"]       = $kssSection->getTitle();
-					PatternData::$store[$patternStoreKey]["desc"]       = $kssSection->getDescription();
-					PatternData::$store[$patternStoreKey]["descExists"] = true;
+					PatternData::setPatternOption($patternStoreKey, "name", $kssSection->getTitle());
+					PatternData::setPatternOption($patternStoreKey, "desc", $kssSection->getDescription());
+					PatternData::setPatternOption($patternStoreKey, "descExists", true);
 					
 					// find the kss modifiers
 					$modifiers = $kssSection->getModifiers();
@@ -91,7 +91,7 @@ class Helper extends PatternDataHelper {
 								$data    = Data::getPatternSpecificData($patternStoreKey);
 								$data    = array_merge($data,array("styleModifier" => $class));
 								
-								$srcPath = (isset($patternStoreData["pseudo"])) ? PatternData::$store[$patternStoreData["original"]]["pathName"] : $patternStoreData["pathName"];
+								$srcPath = (isset($patternStoreData["pseudo"])) ? PatternData::getPatternOption($patternStoreData["original"],"pathName") : $patternStoreData["pathName"];
 								$code    = Render::Pattern($srcPath,$data);
 								
 								$modifierCodeExists    = true;
@@ -110,13 +110,14 @@ class Helper extends PatternDataHelper {
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
 						
 						// render the views for the plug-in
-						$partialViewDescAddition    = Template::$htmlLoader->render($this->descTemplate,$patternModifierData);
-						$partialViewExampleAddition = Template::$htmlLoader->render($this->exampleTemplate,$patternModifierData);
+						$htmlLoader                 = Template::getHTMLLoader();
+						$partialViewDescAddition    = $htmlLoader->render($this->descTemplate,$patternModifierData);
+						$partialViewExampleAddition = $htmlLoader->render($this->exampleTemplate,$patternModifierData);
 						
 						// add the views to the appropriate containers in the patterndata::$store
-						PatternData::$store[$patternStoreKey]["partialViewDescAdditions"][]    = $partialViewDescAddition;
-						PatternData::$store[$patternStoreKey]["partialViewExampleAdditions"][] = $partialViewExampleAddition;
-						PatternData::$store[$patternStoreKey]["codeViewDescAdditions"][]       = $partialViewDescAddition;
+						PatternData::setPatternOptionArray($patternStoreKey, "partialViewDescAdditions", $partialViewDescAddition);
+						PatternData::setPatternOptionArray($patternStoreKey, "partialViewExampleAdditions", $partialViewExampleAddition);
+						PatternData::setPatternOptionArray($patternStoreKey, "codeViewDescAdditions", $partialViewDescAddition);
 						
 					}
 					
