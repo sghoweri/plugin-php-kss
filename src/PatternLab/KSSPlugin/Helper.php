@@ -20,6 +20,7 @@ use \PatternLab\PatternData\Helper as PatternDataHelper;
 use \PatternLab\PatternEngine;
 use \PatternLab\Render;
 use \PatternLab\Template;
+use \PatternLab\Timer;
 
 class Helper extends PatternDataHelper {
 	
