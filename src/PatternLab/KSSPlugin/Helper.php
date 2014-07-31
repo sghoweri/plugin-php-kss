@@ -12,7 +12,7 @@
 
 namespace PatternLab\KSSPlugin;
 
-use \PatternLab\KSSPlugin\Parser;
+use \Scan\KSS\Parser;
 use \PatternLab\Config;
 use \PatternLab\Data;
 use \PatternLab\PatternData;
