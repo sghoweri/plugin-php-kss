@@ -1,6 +1,6 @@
 {
 	"name":             "pattern-lab/plugin-php-kss",
-	"description":      "KSS Plugin for the PHP version of Pattern Lab",
+	"description":      "KSS Plugin for the PHP version of Pattern Lab ",
 	"keywords":         ["kss", "pattern lab", "style guide"],
 	"homepage":         "http://patternlab.io",
 	"license":          "MIT",
