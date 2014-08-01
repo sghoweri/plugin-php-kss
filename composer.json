@@ -32,6 +32,6 @@
 	],
 	"require": {
 		"php":            ">=5.3.6",
-		"scan/kss-php":   "dev-bugfix"
+		"scan/kss-php":   "v0.7.0-0.0.1"
 	}
 }
