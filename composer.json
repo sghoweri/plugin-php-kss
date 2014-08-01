@@ -23,12 +23,6 @@
 			"PatternLab\\KSSPlugin": "src/"
 		}
 	},
-	"repositories": [
-		{
-        		"type": "vcs",
-        		"url": "https://github.com/pattern-lab/kss-php"
-        	}
-	],
 	"require": {
 		"php":            ">=5.3.6",
 		"scan/kss-php":   "v0.7.0-patch"
