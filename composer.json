@@ -31,11 +31,6 @@
 	],
 	"require": {
 		"php":            ">=5.3.6",
-		"scan/kss-php":   "dev-master"
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-master":   "dev-dev"
-		}
+		"scan/kss-php":   "dev-dev as v0.6.0"
 	}
 }
