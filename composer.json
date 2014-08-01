@@ -18,7 +18,6 @@
 		"wiki":           "http://patternlab.io/docs/",
 		"source":         "https://github.com/pattern-lab/plugin-php-kss/releases"
 	},
-	"minimum-stability": "dev",
 	"autoload": {
 		"psr-0": {
 			"PatternLab\\KSSPlugin": "src/"
