@@ -61,8 +61,16 @@ class Helper extends PatternDataHelper {
 			
 			if ($patternStoreData["category"] == "pattern") {
 				
+				$kssSection = "";
+				
+				try {
+					$kssSection = $kss->getSection($patternStoreKey);
+				} catch(\Exception $e) {
+					$kssSection = "";
+				}
+				
 				// see if this pattern has a section in the loaded KSS
-				if ($kssSection = $kss->getSection($patternStoreKey)) {
+				if (!empty($kssSection)) {
 					
 					// update the name and desc based on the KSS
 					PatternData::setPatternOption($patternStoreKey, "name", $kssSection->getTitle());
