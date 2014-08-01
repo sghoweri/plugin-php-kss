@@ -25,9 +25,9 @@
 	},
 	"repositories": [
 		{
-			"type": "git",
-			"url":  "https://github.com/pattern-lab/kss-php.git"
-		}
+        		"type": "vcs",
+        		"url": "https://github.com/pattern-lab/kss-php"
+        	}
 	],
 	"require": {
 		"php":            ">=5.3.6",
