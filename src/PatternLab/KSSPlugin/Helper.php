@@ -12,14 +12,15 @@
 
 namespace PatternLab\KSSPlugin;
 
-use \PatternLab\KSSPlugin\Parser;
+use \Scan\Kss\Parser;
 use \PatternLab\Config;
 use \PatternLab\Data;
 use \PatternLab\PatternData;
 use \PatternLab\PatternData\Helper as PatternDataHelper;
 use \PatternLab\PatternEngine;
 use \PatternLab\Render;
-use \PatternLab\Template\Helper as TemplateHelper;
+use \PatternLab\Template;
+use \PatternLab\Timer;
 
 class Helper extends PatternDataHelper {
 	
@@ -50,22 +51,31 @@ class Helper extends PatternDataHelper {
 		// various set-up options
 		$options                 = array();
 		$options["patternPaths"] = $this->patternPaths;
-		PatternEngine::setup($options);
+		$patternDataStore        = PatternData::get();
+		Template::setPatternLoader(PatternEngine::getInstance()->getPatternLoader($options));
 		
 		// parse all of the CSS in the project
-		$kss = new Parser(Config::$options["sourceDir"]);
+		$kss = new Parser(Config::getOption("sourceDir"));
 		
-		foreach (PatternData::$store as $patternStoreKey => $patternStoreData) {
+		foreach ($patternDataStore as $patternStoreKey => $patternStoreData) {
 			
 			if ($patternStoreData["category"] == "pattern") {
 				
+				$kssSection = "";
+				
+				try {
+					$kssSection = $kss->getSection($patternStoreKey);
+				} catch(\Exception $e) {
+					$kssSection = "";
+				}
+				
 				// see if this pattern has a section in the loaded KSS
-				if ($kssSection = $kss->getSection($patternStoreKey)) {
+				if (!empty($kssSection)) {
 					
 					// update the name and desc based on the KSS
-					PatternData::$store[$patternStoreKey]["name"]       = $kssSection->getTitle();
-					PatternData::$store[$patternStoreKey]["desc"]       = $kssSection->getDescription();
-					PatternData::$store[$patternStoreKey]["descExists"] = true;
+					PatternData::setPatternOption($patternStoreKey, "name", $kssSection->getTitle());
+					PatternData::setPatternOption($patternStoreKey, "desc", $kssSection->getDescription());
+					PatternData::setPatternOption($patternStoreKey, "descExists", true);
 					
 					// find the kss modifiers
 					$modifiers = $kssSection->getModifiers();
@@ -89,7 +99,7 @@ class Helper extends PatternDataHelper {
 								$data    = Data::getPatternSpecificData($patternStoreKey);
 								$data    = array_merge($data,array("styleModifier" => $class));
 								
-								$srcPath = (isset($patternStoreData["pseudo"])) ? PatternData::$store[$patternStoreData["original"]]["pathName"] : $patternStoreData["pathName"];
+								$srcPath = (isset($patternStoreData["pseudo"])) ? PatternData::getPatternOption($patternStoreData["original"],"pathName") : $patternStoreData["pathName"];
 								$code    = Render::Pattern($srcPath,$data);
 								
 								$modifierCodeExists    = true;
@@ -108,13 +118,14 @@ class Helper extends PatternDataHelper {
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
 						
 						// render the views for the plug-in
-						$partialViewDescAddition    = TemplateHelper::$htmlLoader->render($this->descTemplate,$patternModifierData);
-						$partialViewExampleAddition = TemplateHelper::$htmlLoader->render($this->exampleTemplate,$patternModifierData);
+						$htmlLoader                 = Template::getHTMLLoader();
+						$partialViewDescAddition    = $htmlLoader->render($this->descTemplate,$patternModifierData);
+						$partialViewExampleAddition = $htmlLoader->render($this->exampleTemplate,$patternModifierData);
 						
 						// add the views to the appropriate containers in the patterndata::$store
-						PatternData::$store[$patternStoreKey]["partialViewDescAdditions"][]    = $partialViewDescAddition;
-						PatternData::$store[$patternStoreKey]["partialViewExampleAdditions"][] = $partialViewExampleAddition;
-						PatternData::$store[$patternStoreKey]["codeViewDescAdditions"][]       = $partialViewDescAddition;
+						PatternData::setPatternOptionArray($patternStoreKey, "partialViewDescAdditions", $partialViewDescAddition);
+						PatternData::setPatternOptionArray($patternStoreKey, "partialViewExampleAdditions", $partialViewExampleAddition);
+						PatternData::setPatternOptionArray($patternStoreKey, "codeViewDescAdditions", $partialViewDescAddition);
 						
 					}
 					
