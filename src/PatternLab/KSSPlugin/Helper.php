@@ -1,7 +1,7 @@
 <?php
 
 /*!
- * Pattern Data KSS Plugin Helper Class 
+ * Pattern Data KSS Plugin Helper Class  
  *
  * Copyright (c) 2014 Dave Olsen, http://dmolsen.com
  * Licensed under the MIT license
