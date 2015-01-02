@@ -18,7 +18,6 @@ use \PatternLab\Data;
 use \PatternLab\PatternData;
 use \PatternLab\PatternData\Helper as PatternDataHelper;
 use \PatternLab\PatternEngine;
-use \PatternLab\Render;
 use \PatternLab\Template;
 use \PatternLab\Timer;
 
@@ -52,7 +51,12 @@ class Helper extends PatternDataHelper {
 		$options                 = array();
 		$options["patternPaths"] = $this->patternPaths;
 		$patternDataStore        = PatternData::get();
-		Template::setPatternLoader(PatternEngine::getInstance()->getPatternLoader($options));
+		$stringLoader            = Template::getStringLoader();
+		
+		// load the pattern loader
+		$patternEngineBasePath   = PatternEngine::getInstance()->getBasePath();
+		$patternLoaderClass      = $patternEngineBasePath."\Loaders\PatternLoader";
+		$patternLoader           = new $patternLoaderClass($options);
 		
 		// parse all of the CSS in the project
 		$kss = new Parser(Config::getOption("sourceDir"));
@@ -100,7 +104,7 @@ class Helper extends PatternDataHelper {
 								$data    = array_merge($data,array("styleModifier" => $class));
 								
 								$srcPath = (isset($patternStoreData["pseudo"])) ? PatternData::getPatternOption($patternStoreData["original"],"pathName") : $patternStoreData["pathName"];
-								$code    = Render::Pattern($srcPath,$data);
+								$code    = $patternLoader->render(array("pattern" => $srcPath, "data" => $data));
 								
 								$modifierCodeExists    = true;
 								
@@ -118,9 +122,9 @@ class Helper extends PatternDataHelper {
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
 						
 						// render the views for the plug-in
-						$htmlLoader                 = Template::getHTMLLoader();
-						$partialViewDescAddition    = $htmlLoader->render($this->descTemplate,$patternModifierData);
-						$partialViewExampleAddition = $htmlLoader->render($this->exampleTemplate,$patternModifierData);
+						
+						$partialViewDescAddition    = $stringLoader->render(array("string" => $this->descTemplate, "data" => $patternModifierData));
+						$partialViewExampleAddition = $stringLoader->render(array("string" => $this->exampleTemplate, "data" => $patternModifierData));
 						
 						// add the views to the appropriate containers in the patterndata::$store
 						PatternData::setPatternOptionArray($patternStoreKey, "partialViewDescAdditions", $partialViewDescAddition);
