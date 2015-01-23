@@ -30,9 +30,9 @@
 	"extra": {
 		"patternlab": {
 			"dist": {
-				"componentDir": {
+				"componentDir": [
 					{ "*": "*" }
-				}
+				]
 			}
 			"onready": "Dispatcher.addListener(\"test\", function() { Test.print(); }); Dispatcher.addListener(\"boo\", function() { Test.bar(); });",
 			"callback": "Dispatcher.trigger(\"test\"); Dispatcher.trigger(\"boo\");"
