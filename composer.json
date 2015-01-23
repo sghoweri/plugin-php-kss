@@ -26,5 +26,16 @@
 	"require": {
 		"php":            ">=5.3.6",
 		"scan/kss-php":   "v0.8.0"
+	},
+	"extra": {
+		"patternlab": {
+			"dist": {
+				"componentDir": {
+					{ "*": "*" }
+				}
+			}
+			"onready": "Dispatcher.addListener(\"test\", function() { Test.print(); }); Dispatcher.addListener(\"boo\", function() { Test.bar(); });",
+			"callback": "Dispatcher.trigger(\"test\"); Dispatcher.trigger(\"boo\");"
+		}
 	}
 }
