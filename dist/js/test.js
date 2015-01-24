@@ -1,7 +1,7 @@
 var Test = {
 	
 	print: function() {
-		console.log("hello world");
+		console.log("hello world is awesome");
 	},
 	
 	bar: function() {
