@@ -116,10 +116,14 @@ class Helper extends PatternDataHelper {
 														"modifierCode"       => $code,
 														"modifierCodeExists" => $modifierCodeExists);
 							
+							$patternModifiersOutput[] = array("modifierName" => $name,
+														      "modifierDesc" => $desc);
+							
 						}
 						
 						// this is silly but keeps it looking cleaner to me
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
+						$patternModifierOutputData = array("pattern-lab-plugin-kss" => array("patternModifiersExist" => true, "patternModifiers" => $patternModifiersOutput));
 						
 						// render the views for the plug-in
 						
@@ -129,7 +133,7 @@ class Helper extends PatternDataHelper {
 						// add the views to the appropriate containers in the patterndata::$store
 						PatternData::setPatternOptionArray($patternStoreKey, "partialViewDescAdditions", $partialViewDescAddition);
 						PatternData::setPatternOptionArray($patternStoreKey, "partialViewExampleAdditions", $partialViewExampleAddition);
-						PatternData::setPatternOptionArray($patternStoreKey, "codeViewDescAdditions", $partialViewDescAddition);
+						PatternData::setPatternOptionArray($patternStoreKey, "extraOutput", $patternModifierOutputData);
 						
 					}
 					
