@@ -8,7 +8,7 @@ var PluginKSS = {
 		
 		var template         = document.getElementById(name+"-template");
 		var templateCompiled = Hogan.compile(template.innerHTML);
-		var templateRendered = templateCompiled.render(patternData.extraOutput);
+		var templateRendered = templateCompiled.render(patternData.extraOutput["pattern-lab-plugin-kss"]);
 		
 		var p       = document.getElementById('sg-code-extra-output');
 		var n       = document.createElement('div');
