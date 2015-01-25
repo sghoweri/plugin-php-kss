@@ -4,7 +4,7 @@ var PluginKSS = {
 		
 		console.log("trying to insert");
 		
-		var name = "pattern-lab-plugin-kss-code-insert";
+		var name = "pattern-lab-plugin-kss-templates-code-insert";
 		
 		var template         = document.getElementById(name+"-template");
 		var templateCompiled = Hogan.compile(template.innerHTML);
