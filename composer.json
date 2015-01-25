@@ -35,7 +35,7 @@
 				]
 			},
 			"onready": "",
-			"callback": "Dispatcher.addListener(\"codePanelRenderDone\", function() { PluginKSS.insert(); });"
+			"callback": "Dispatcher.addListener(\"codePanelRenderDone\", PluginKSS.insert);"
 		}
 	}
 }
