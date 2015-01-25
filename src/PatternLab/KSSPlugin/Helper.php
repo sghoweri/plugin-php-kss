@@ -123,7 +123,7 @@ class Helper extends PatternDataHelper {
 						
 						// this is silly but keeps it looking cleaner to me
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
-						$patternModifierOutputData = array("patternLabPluginKSS" => array("patternModifiersExist" => true, "patternModifiers" => $patternModifiersOutput));
+						$patternModifierOutputData = array("patternModifiersExist" => true, "patternModifiers" => $patternModifiersOutput);
 						
 						// render the views for the plug-in
 						
@@ -133,7 +133,7 @@ class Helper extends PatternDataHelper {
 						// add the views to the appropriate containers in the patterndata::$store
 						PatternData::setPatternOptionArray($patternStoreKey, "partialViewDescAdditions", $partialViewDescAddition);
 						PatternData::setPatternOptionArray($patternStoreKey, "partialViewExampleAdditions", $partialViewExampleAddition);
-						PatternData::setPatternOptionArray($patternStoreKey, "extraOutput", $patternModifierOutputData);
+						PatternData::setPatternOptionArray($patternStoreKey, "extraOutput", $patternModifierOutputData, "patternLabPluginKSS");
 						
 					}
 					
