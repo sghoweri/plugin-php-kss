@@ -123,7 +123,7 @@ class Helper extends PatternDataHelper {
 						
 						// this is silly but keeps it looking cleaner to me
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
-						$patternModifierOutputData = array("pattern-lab-plugin-kss" => array("patternModifiersExist" => true, "patternModifiers" => $patternModifiersOutput));
+						$patternModifierOutputData = array("patternLabPluginKSS" => array("patternModifiersExist" => true, "patternModifiers" => $patternModifiersOutput));
 						
 						// render the views for the plug-in
 						
