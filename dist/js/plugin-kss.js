@@ -1,6 +1,6 @@
 var PluginKSS = {
 	
-	insert: function() {
+	insert: function(patternData) {
 		
 		console.log("trying to insert");
 		
