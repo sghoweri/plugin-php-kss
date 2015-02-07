@@ -98,7 +98,7 @@ class Helper extends PatternDataHelper {
 							$modifierCodeExists = false;
 							
 							// if it's not a pseudo class render it
-							if ($name[0] != ":") {
+							if (strpos($name,":") !== false) {
 								
 								$data    = Data::getPatternSpecificData($patternStoreKey);
 								$data    = array_merge($data,array("styleModifier" => $class));
