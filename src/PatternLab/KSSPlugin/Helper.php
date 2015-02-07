@@ -125,8 +125,33 @@ class Helper extends PatternDataHelper {
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
 						$patternModifierOutputData = array("patternModifiersExist" => true, "patternModifiers" => $patternModifiersOutput);
 						
-						// render the views for the plug-in
+						// grab extra sections based on KSS syntax
+						if (!empty($kssSection->getCompatibility())) {
+							$patternModifierData["compatibility"]             = $kssSection->getCompatibility();
+							$patternModifierData["compatibilityExists"]       = true;
+							$patternModifierOutputData["compatibility"]       = $kssSection->getCompatibility();
+							$patternModifierOutputData["compatibilityExists"] = true;
+						}
+						if (!empty($kssSection->getExperimental())) {
+							$patternModifierData["experimental"]              = $kssSection->getExperimental();
+							$patternModifierData["experimentalExists"]        = true;
+							$patternModifierOutputData["experimental"]        = $kssSection->getExperimental();
+							$patternModifierOutputData["experimentalExists"]  = true;
+						}
+						if (!empty($kssSection->getDeprecated())) {
+							$patternModifierData["deprected"]                 = $kssSection->getDeprecated();
+							$patternModifierData["deprecatedExists"]          = true;
+							$patternModifierOutputData["deprecated"]          = $kssSection->getDeprecated();
+							$patternModifierOutputData["deprecatedExists"]    = true;
+						}
+						if (!empty($kssSection->getParameters())) {
+							$patternModifierData["parameters"]                = $kssSection->getParameters();
+							$patternModifierData["parametersExist"]           = true;
+							$patternModifierOutputData["parameters"]          = $kssSection->getParameters();
+							$patternModifierOutputData["parametersExists"]    = true;
+						}
 						
+						// render the views for the plug-in
 						$partialViewDescAddition    = $stringLoader->render(array("string" => $this->descTemplate, "data" => $patternModifierData));
 						$partialViewExampleAddition = $stringLoader->render(array("string" => $this->exampleTemplate, "data" => $patternModifierData));
 						
