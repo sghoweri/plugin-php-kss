@@ -145,9 +145,14 @@ class Helper extends PatternDataHelper {
 							$patternModifierOutputData["deprecatedExists"]    = true;
 						}
 						if (!empty($kssSection->getParameters())) {
-							$patternModifierData["parameters"]                = $kssSection->getParameters();
-							$patternModifierData["parametersExist"]           = true;
-							$patternModifierOutputData["parameters"]          = $kssSection->getParameters();
+							$results = array();
+							$options = $kssSection->getParameters();
+							foreach ($options as $option) {
+								$results[] = array("name" => $option->getName(), "description" => $option->getDescription());
+							}
+							$patternModifierData["parameters"]                = $results;
+							$patternModifierData["parametersExists"]          = true;
+							$patternModifierOutputData["parameters"]          = $results;
 							$patternModifierOutputData["parametersExists"]    = true;
 						}
 						
