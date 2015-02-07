@@ -7,11 +7,11 @@
 	<p>{{ compatibility }}</p>
 {{/ compatibilityExists }}
 {{# experimentalExists }}
-	<p>{{ experimental }}</p>
+	<p>Experimental: {{ experimental }}</p>
 {{/ experimentalExists }}
 {{# deprecatedExists }}
-	<p>{{ deprecated }}</p>
+	<p>Deprecated: {{ deprecated }}</p>
 {{/ deprecatedExists }}
 {{# parametersExists }}
-	<p>{{ parameters }}</p>
+	<ul>{{# parameters }}<li>{{ name }}  - {{ description }}</li>{{/ parameters }}</ul>
 {{/ parametersExists }}
