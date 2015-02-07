@@ -1,8 +1,13 @@
+{{# patternModifiersExist }}
+<h2>Classes that can be used to modify the style of this pattern:</h2>
 <ul>
-	{{# patternModifiers }}
-		<li> <strong>{{ modifierName }}:</strong> {{ modifierDesc }}</li>
-	{{/ patternModifiers }}
+{{/ patternModifiersExist }}
+{{# patternModifiers }}
+	<li> <strong>{{ modifierName }} - </strong> {{ modifierDesc }}</li>
+{{/ patternModifiers }}
+{{# patternModifiersExist }}
 </ul>
+{{/ patternModifiersExist }}
 {{# compatibilityExists }}
 	<p>{{ compatibility }}</p>
 {{/ compatibilityExists }}

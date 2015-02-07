@@ -18,7 +18,6 @@ use \PatternLab\Data;
 use \PatternLab\PatternData;
 use \PatternLab\PatternData\Helper as PatternDataHelper;
 use \PatternLab\PatternEngine;
-use \PatternLab\Render;
 use \PatternLab\Template;
 use \PatternLab\Timer;
 
@@ -52,7 +51,12 @@ class Helper extends PatternDataHelper {
 		$options                 = array();
 		$options["patternPaths"] = $this->patternPaths;
 		$patternDataStore        = PatternData::get();
-		Template::setPatternLoader(PatternEngine::getInstance()->getPatternLoader($options));
+		$stringLoader            = Template::getStringLoader();
+		
+		// load the pattern loader
+		$patternEngineBasePath   = PatternEngine::getInstance()->getBasePath();
+		$patternLoaderClass      = $patternEngineBasePath."\Loaders\PatternLoader";
+		$patternLoader           = new $patternLoaderClass($options);
 		
 		// parse all of the CSS in the project
 		$kss = new Parser(Config::getOption("sourceDir"));
@@ -94,13 +98,13 @@ class Helper extends PatternDataHelper {
 							$modifierCodeExists = false;
 							
 							// if it's not a pseudo class render it
-							if ($name[0] != ":") {
+							if (strpos($name,":") !== false) {
 								
 								$data    = Data::getPatternSpecificData($patternStoreKey);
 								$data    = array_merge($data,array("styleModifier" => $class));
 								
 								$srcPath = (isset($patternStoreData["pseudo"])) ? PatternData::getPatternOption($patternStoreData["original"],"pathName") : $patternStoreData["pathName"];
-								$code    = Render::Pattern($srcPath,$data);
+								$code    = $patternLoader->render(array("pattern" => $srcPath, "data" => $data));
 								
 								$modifierCodeExists    = true;
 								
@@ -112,20 +116,49 @@ class Helper extends PatternDataHelper {
 														"modifierCode"       => $code,
 														"modifierCodeExists" => $modifierCodeExists);
 							
+							$patternModifiersOutput[] = array("modifierName" => $name,
+														      "modifierDesc" => $desc);
+							
 						}
 						
 						// this is silly but keeps it looking cleaner to me
 						$patternModifierData = array("patternModifiers" => $patternModifiers);
+						$patternModifierOutputData = array("patternModifiersExist" => true, "patternModifiers" => $patternModifiersOutput);
+						
+						// grab extra sections based on KSS syntax
+						if (!empty($kssSection->getCompatibility())) {
+							$patternModifierData["compatibility"]             = $kssSection->getCompatibility();
+							$patternModifierData["compatibilityExists"]       = true;
+							$patternModifierOutputData["compatibility"]       = $kssSection->getCompatibility();
+							$patternModifierOutputData["compatibilityExists"] = true;
+						}
+						if (!empty($kssSection->getExperimental())) {
+							$patternModifierData["experimental"]              = $kssSection->getExperimental();
+							$patternModifierData["experimentalExists"]        = true;
+							$patternModifierOutputData["experimental"]        = $kssSection->getExperimental();
+							$patternModifierOutputData["experimentalExists"]  = true;
+						}
+						if (!empty($kssSection->getDeprecated())) {
+							$patternModifierData["deprected"]                 = $kssSection->getDeprecated();
+							$patternModifierData["deprecatedExists"]          = true;
+							$patternModifierOutputData["deprecated"]          = $kssSection->getDeprecated();
+							$patternModifierOutputData["deprecatedExists"]    = true;
+						}
+						if (!empty($kssSection->getParameters())) {
+							$patternModifierData["parameters"]                = $kssSection->getParameters();
+							$patternModifierData["parametersExist"]           = true;
+							$patternModifierOutputData["parameters"]          = $kssSection->getParameters();
+							$patternModifierOutputData["parametersExists"]    = true;
+						}
 						
 						// render the views for the plug-in
-						$htmlLoader                 = Template::getHTMLLoader();
-						$partialViewDescAddition    = $htmlLoader->render($this->descTemplate,$patternModifierData);
-						$partialViewExampleAddition = $htmlLoader->render($this->exampleTemplate,$patternModifierData);
+						$partialViewDescAddition    = $stringLoader->render(array("string" => $this->descTemplate, "data" => $patternModifierData));
+						$partialViewExampleAddition = $stringLoader->render(array("string" => $this->exampleTemplate, "data" => $patternModifierData));
 						
 						// add the views to the appropriate containers in the patterndata::$store
 						PatternData::setPatternOptionArray($patternStoreKey, "partialViewDescAdditions", $partialViewDescAddition);
 						PatternData::setPatternOptionArray($patternStoreKey, "partialViewExampleAdditions", $partialViewExampleAddition);
-						PatternData::setPatternOptionArray($patternStoreKey, "codeViewDescAdditions", $partialViewDescAddition);
+						PatternData::setPatternOptionArray($patternStoreKey, "extraOutput", $patternModifierOutputData, "patternLabPluginKSS");
 						
 					}
 					
