@@ -139,7 +139,7 @@ class Helper extends PatternDataHelper {
 							$patternModifierOutputData["experimentalExists"]  = true;
 						}
 						if (!empty($kssSection->getDeprecated())) {
-							$patternModifierData["deprected"]                 = $kssSection->getDeprecated();
+							$patternModifierData["deprecated"]                = $kssSection->getDeprecated();
 							$patternModifierData["deprecatedExists"]          = true;
 							$patternModifierOutputData["deprecated"]          = $kssSection->getDeprecated();
 							$patternModifierOutputData["deprecatedExists"]    = true;
