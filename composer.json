@@ -25,7 +25,7 @@
 	},
 	"require": {
 		"php":            ">=5.3.6",
-		"scan/kss-php":   "v0.8.0"
+		"scan/kss-php":   "~1.0"
 	},
 	"extra": {
 		"patternlab": {
